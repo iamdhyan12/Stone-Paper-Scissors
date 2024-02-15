@@ -1,96 +1,96 @@
-let boxes= document.querySelectorAll(".box");
-let reset=document.querySelector(".reset");
+let compScore = 0;
+let userScore = 0;
 
-let turn0=true;
+const choices = document.querySelectorAll(".choice");
 
-const winPatterns=[
-    [0,1,2],
-    [0,3,6],
-    [0,4,8],
-    [1,4,7],
-    [2,4,6],
-    [2,5,8],
-    [3,4,5],
-    [6,7,8]
-];
-let click=0;
-boxes.forEach((box)=>{ //box is just another variable
-    box.addEventListener("click",()=>{
+const msg=document.querySelector("#msg");
+const uscore=document.querySelector("#user");
+const cscore=document.querySelector("#comp");
 
-        if(turn0){
-        
-            box.innerText="O";
-            turn0=false;
-            click++;
-        }
-        else{
-            box.innerText="X";
-            turn0=true;
-            click++;
-            
-        }
 
-    box.disabled=true;
-    checkWinner();
-    })
-});
 
-const checkWinner = () => {
-    for (let pattern of winPatterns) {
-      let pos1Val = boxes[pattern[0]].innerText;
-      let pos2Val = boxes[pattern[1]].innerText;
-      let pos3Val = boxes[pattern[2]].innerText;
-  
-      if(pos1Val != "" && pos2Val != "" && pos3Val != "") {
-            if (pos1Val === pos2Val && pos2Val === pos3Val){
-                showWinner(pos1Val);
-                isWinner = true;
-                break;
+const drawGame=()=>{
+    console.log("Game is Drawn");
+    msg.innerText="Game Drawn. Play Again!";
+    msg.style.backgroundColor="#081b31";
+}
+const generateChoice=()=>{
+    const options=["rock", "paper", "scissors"];
+    const randomIndex = Math.floor(Math.random() * options.length);
+    const randomChoice = options[randomIndex];
+    return randomChoice;
+    
+
+};
+const checkFinalWinner = () => {
+    if (userScore === 3 || compScore === 3) {
+        const winner = userScore === 3 ? 'You' : 'Computer';
+        alert(winner + ' won the game!');
+        // Reset scores
+        userScore = 0;
+        compScore = 0;
+        uscore.innerText = userScore;
+        cscore.innerText = compScore;
+        // Update message for a new game
+        msg.innerText = "Play your move";
+        msg.style.backgroundColor = "#081b31";
+    }
+};
+const showWinner=(userwin)=>{
+    if(userwin){
+        userScore++;
+        uscore.innerText=userScore;
+        msg.innerText="You have won!";
+        msg.style.backgroundColor="green";
+        console.log("User has won the game");
+    }
+    else{
+        compScore++;
+        cscore.innerText=compScore;
+        msg.innerText="Computer has won!";
+        msg.style.backgroundColor="red";
+        console.log("Computer has won the game");
+    }
+    checkFinalWinner();
+}
+
+const playGame =(userId)=>{
+    console.log("user choice =",userId);
+
+    const compId=generateChoice();
+    console.log("Computer selected",compId);
+
+    if(userId===compId){
+        drawGame();
+    }
+    else{
+        let userwin=true;
+        if(userId==="rock"){
+            if(compId==="scissors"){userwin=true;}
+            else{
+                userwin=false;
             }
         }
+        else if(userId==="scissors"){
+            if(compId==="paper"){userwin=true;}
+            else{userwin=false;}
+        }
+        else if(userId==="paper"){
+            if(compId==="rock"){userwin=true;}
+            else{userwin=false;}
+        }
+        showWinner(userwin);
+        checkFinalWinner();
+
     }
 
-// Check if the click counter has reached 9 and there's no winner
-    if (!isWinner && clickCounter === 9) {
-        showDraw();
-        return true;
-    }
-    
+
 };
 
-// let boxes = document.querySelectorAll(".box");
-// let reset = document.querySelector(".reset"); // Use # for id
-
-// let turnIndex = 0;
-// const names = ["Jai", "Shree", "Ram"];
-
-// const winPatterns = [
-//     [0, 1, 2],
-//     [0, 3, 6],
-//     [0, 4, 8],
-//     [1, 4, 7],
-//     [2, 4, 6],
-//     [2, 5, 8],
-//     [3, 4, 5],
-//     [6, 7, 8]
-// ];
-
-// boxes.forEach((box) => {
-//     box.addEventListener("click", () => {
-//         // Prevent changing the text if the box already has text
-//         if (box.innerText.trim() === '') {
-//             console.log("Box was clicked");
-//             box.innerText = names[turnIndex];
-
-//             // Increment turnIndex and reset if it exceeds the length of names array
-//             turnIndex = (turnIndex + 1) % names.length;
-//         }
-//     });
-// });
-
-// reset.addEventListener("click", () => {
-//     boxes.forEach((box) => {
-//         box.innerText = '';
-//     });
-//     turnIndex = 0; // Reset the turnIndex
-// });
+choices.forEach((choice) => {
+    choice.addEventListener("click", () => {
+        const userId = choice.id;
+        console.log("choice was selected", userId);
+        playGame(userId);
+    });
+});
