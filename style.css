@@ -1,0 +1,71 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color:#904C31; /* Light background */
+    min-height: 100vh; /* This makes the main element take at least the full height of the viewport */
+    text-align: center; /* This centers the text inside the main element, including the h1 */
+}
+/* Container for the game, for alignment purposes */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh; /* Full height of the viewport */
+    
+}
+
+/* The Tic Tac Toe game grid */
+.game {
+    display: grid;
+    grid-template-columns: repeat(3, 100px); /* 3 columns */
+    grid-template-rows: repeat(3, 100px); /* 3 rows */
+    grid-gap: 10px; /* Space between the boxes */
+}
+
+/* Styling for each box of the Tic Tac Toe */
+.box {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    color: #efefef;
+    width: 100px; /* Width of each box */
+    height: 100px; /* Height of each box */
+    background-color:#DDB967;
+    border: 2px solid #d1603d; /* Border for the boxes */
+    font-size: 2em; /* Larger text for 'X' and 'O' */
+    cursor: pointer;
+    border-radius: 10%;
+}
+
+/* Optional: Add some hover effects for the boxes */
+.box:hover {
+    background-color: #d1603d; /* Light grey background on hover */
+}
+
+/* Optional: Styling for 'X' and 'O' specifically, if you want to differentiate them */
+.box.x { /* Assuming you add 'x' class for boxes with 'X' */
+    color: blue;
+}
+
+.box.o { /* Assuming you add 'o' class for boxes with 'O' */
+    color: red;
+}
+.reset{
+    height: 50px;
+    width: 70px;
+    color: white;
+    background-color: #4f3824;
+    border: 2px solid #DDB967; /* Border for the boxes */
+    border-radius: 10%;
+    cursor: pointer;
+}
+
+.reset:hover {
+    background-color: #DDB967; /* Light grey background on hover */
+}
